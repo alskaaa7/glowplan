@@ -1,0 +1,96 @@
+{# ------------------------------------------------------------
+   templates/api/users.html — демо-интерфейс REST API пользователей
+   FRONTEND (Разработчик 1 (Самира)): верстка виджета
+   BACKEND (Разработчик 2 (Арина)): данные из routes/api.py
+   FRONTEND (Разработчик 3 (Даша)): LocalStorage-кэш, Fetch API
+------------------------------------------------------------ #}
+{% extends "base.html" %}
+{% block title %}API пользователей{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">API пользователей</h1>
+    <p class="page-subtitle">Демонстрация REST API: GET /api/users · POST /api/users</p>
+</div>
+
+<div id="user-api-widget" class="api-widget">
+
+    <!-- сообщение об ошибке (Разработчик 1 (Самира)) -->
+    <div id="api-error" class="banner banner--danger" style="display:none"></div>
+
+    <div class="api-widget__grid">
+
+        <!-- СПИСОК ПОЛЬЗОВАТЕЛЕЙ -->
+        <div class="card">
+            <div class="card__title-row">
+                <h2 class="card__title">GET /api/users</h2>
+                <button id="api-refresh-btn" class="btn btn--xs btn--outline">↻ Обновить</button>
+            </div>
+            <div id="api-user-list" class="api-user-list">
+                <p class="hint">Загрузка…</p>
+            </div>
+        </div>
+
+        <!-- ФОРМА СОЗДАНИЯ -->
+        <div class="card">
+            <h2 class="card__title">POST /api/users</h2>
+            <form id="api-create-user-form" class="auth-form" novalidate>
+                <div class="form-group">
+                    <label>Имя <span class="required">*</span></label>
+                    <input type="text" name="api_name" required placeholder="Иван Иванов">
+                </div>
+                <div class="form-group">
+                    <label>Email <span class="required">*</span></label>
+                    <input type="email" name="api_email" required placeholder="ivan@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Возраст <span class="hint">(необязательно)</span></label>
+                    <input type="number" name="api_age" min="0" max="150" placeholder="25">
+                </div>
+                <button type="submit" class="btn btn--primary">Создать пользователя</button>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- ОПИСАНИЕ ЭНДПОИНТОВ (Разработчик 1 (Самира)) -->
+    <div class="card" style="margin-top:1.25rem">
+        <h2 class="card__title">Документация API</h2>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Метод</th>
+                    <th>URL</th>
+                    <th>Описание</th>
+                    <th>Коды ответов</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="badge badge--ok">GET</span></td>
+                    <td><code>/api/users</code></td>
+                    <td>Список всех пользователей</td>
+                    <td>200</td>
+                </tr>
+                <tr>
+                    <td><span class="badge badge--ok">GET</span></td>
+                    <td><code>/api/users/:id</code></td>
+                    <td>Пользователь по id</td>
+                    <td>200, 404</td>
+                </tr>
+                <tr>
+                    <td><span class="badge badge--user">POST</span></td>
+                    <td><code>/api/users</code></td>
+                    <td>Создать пользователя (name, email обязательны)</td>
+                    <td>201, 400, 409, 422</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="hint" style="margin-top:.75rem">
+            Данные хранятся в памяти и сбрасываются при перезапуске сервера.
+            Кэш списка в браузере живёт 5 минут (LocalStorage).
+        </p>
+    </div>
+
+</div>
+{% endblock %}
