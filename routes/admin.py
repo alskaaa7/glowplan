@@ -49,12 +49,16 @@ def panel():
     products_count = Product.query.count()
     schemes = GuruScheme.query.order_by(GuruScheme.created_at.desc()).all()
 
+<<<<<<< HEAD
     return render_template(
         "admin/panel.html",
         users=users,
         products_count=products_count,
         schemes=schemes
     )
+=======
+    #рендеры самиры
+>>>>>>> b1fa9f10170c1a866d377b0075d9d671f80ff596
 
 
 
@@ -204,8 +208,12 @@ def publish_scheme(scheme_id):
 
 @admin_bp.route("/schemes/catalog")
 @login_required
+<<<<<<< HEAD
 def schemes_catalog():
     """каталог опубликованных схем (для всех пользователей)"""
     published = GuruScheme.query.filter_by(is_published=True).all()
     return render_template("admin/schemes_catalog.html", schemes=published)
+=======
+#рендеры самиры
+>>>>>>> b1fa9f10170c1a866d377b0075d9d671f80ff596
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* ------------------------------------------------------------
    static/css/style.css — дизайн-система GlowPlan
    FRONTEND (Разработчик 1): вся верстка, цвета, типографика, компоненты, адаптив
@@ -573,3 +574,6 @@ textarea { font-family: var(--font-body); resize: vertical; width: 100%; padding
     .schedule-grid { grid-template-columns: repeat(2, 1fr); }
     .navbar__links a:not(.nav-avatar):not(.badge-link) { display: none; }
 }
+=======
+/* задача самиры */
+>>>>>>> b1fa9f10170c1a866d377b0075d9d671f80ff596

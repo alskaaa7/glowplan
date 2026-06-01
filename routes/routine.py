@@ -36,11 +36,15 @@ def index():
 
 @routine_bp.route("/edit/<int:day>/<time_of_day>", methods=["GET", "POST"])
 @login_required
+<<<<<<< HEAD
 def edit(day, time_of_day):
     """редактировать слот рутины (день + утро/вечер)"""
     if time_of_day not in ("morning", "evening"):
         flash("Неверное время суток", "error")
         return redirect(url_for("routine.index"))
+=======
+#рендеры самиры для рутины
+>>>>>>> b1fa9f10170c1a866d377b0075d9d671f80ff596
 
     # находим или создаем слот
     routine = Routine.query.filter_by(
@@ -82,6 +86,7 @@ def edit(day, time_of_day):
         flash(f"Рутина на {DAYS_RU[day]} ({_time_label(time_of_day)}) сохранена!", "success")
         return redirect(url_for("routine.index"))
 
+<<<<<<< HEAD
     return render_template(
         "routine/edit.html",
         routine=routine,
@@ -102,6 +107,13 @@ def delete(routine_id):
     db.session.commit()
     flash("Рутина удалена", "info")
     return redirect(url_for("routine.index"))
+=======
+    #рендеры самиры
+
+
+
+#роуты самиры
+>>>>>>> b1fa9f10170c1a866d377b0075d9d671f80ff596
 
 
 def _time_label(time_of_day):

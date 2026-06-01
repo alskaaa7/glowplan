@@ -29,11 +29,15 @@ def shelf():
     elif status_filter == "expired":
         user_products = [up for up in user_products if up.status == "expired"]
 
+<<<<<<< HEAD
     return render_template(
         "products/shelf.html",
         user_products=user_products,
         status_filter=status_filter
     )
+=======
+    #рендеры самиры
+>>>>>>> b1fa9f10170c1a866d377b0075d9d671f80ff596
 
 
 @products_bp.route("/add", methods=["GET", "POST"])
@@ -123,10 +127,14 @@ def catalog():
         ("other", "Другое"),
     ]
 
+<<<<<<< HEAD
     return render_template(
         "products/catalog.html",
         all_products=all_products,
         categories=categories,
         active_category=category_filter
     )
+=======
+  #рендеры самиры
+>>>>>>> b1fa9f10170c1a866d377b0075d9d671f80ff596
 
