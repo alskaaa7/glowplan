@@ -1,6 +1,7 @@
 {# ------------------------------------------------------------
    templates/base.html - базовый шаблон
    FRONTEND (Разработчик 1 (Самира)): верстка, дизайн-система, навигация
+   FRONTEND (Разработчик 3 (Даша)): кнопка темы, ссылка на API пользователей
 ------------------------------------------------------------ #}
 <!DOCTYPE html>
 <html lang="ru">
@@ -37,7 +38,12 @@
 
         {% if current_user.is_admin() %}
         <a href="{{ url_for('admin.panel') }}" class="badge-link badge-link--admin">Панель</a>
+        {# ссылка на демо REST API (Разработчик 3 (Ксения)) #}
+        <a href="{{ url_for('api.get_users_page') }}" class="badge-link badge-link--admin">API</a>
         {% endif %}
+
+        {# кнопка переключения темы (Разработчик 3 (Ксения)) - сохраняет выбор в LocalStorage #}
+        <button id="theme-toggle" title="Сменить тему">🌙</button>
 
         <a href="{{ url_for('main.profile') }}" class="nav-avatar">
             {{ current_user.name[0].upper() }}

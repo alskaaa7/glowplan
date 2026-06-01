@@ -2,6 +2,7 @@
    templates/main/dashboard.html — Дашборд «Сегодня»
    FRONTEND (Разработчик 1 (Самира)): верстка, баннеры, чек-лист
    BACKEND (Разработчик 2 (Арина)): данные передаются из routes/main.py
+   FRONTEND (Разработчик 3 (Даша)): LocalStorage — баннеры, черновики
 ------------------------------------------------------------ #}
 {% extends "base.html" %}
 {% block title %}Сегодня{% endblock %}
@@ -16,9 +17,11 @@
 {% if notifications %}
 <div class="notifications">
     {% for n in notifications %}
-    <div class="banner banner--{{ n.type }}">
-        <span class="banner__icon">{{ n.icon }}</span>
+    {# data-banner-id позволяет JS скрыть баннер в LocalStorage (Разработчик 3 (Ксения)) #}
+    <div class="banner banner--{{ n.type }}" data-banner-id="{{ n.type }}-{{ loop.index }}">
+        <span class="banner__icon">{{ n.icon if n.icon is defined else '' }}</span>
         <span class="banner__text">{{ n.text }}</span>
+        <button class="banner__close" title="Скрыть">×</button>
     </div>
     {% endfor %}
 </div>
@@ -46,7 +49,7 @@
                     <div class="step-item__note">{{ step.notes }}</div>
                     {% endif %}
                 </div>
-                {# Кнопка «Использовано» — увеличивает счётчик (Разработчик 2) #}
+                {# Кнопка «Использовано» — увеличивает счётчик (Разработчик 2 (Арина)) #}
                 <form method="POST" action="{{ url_for('products.mark_used', up_id=step.user_product.id) }}">
                     <button type="submit" class="btn btn--sm btn--outline">✓</button>
                 </form>
