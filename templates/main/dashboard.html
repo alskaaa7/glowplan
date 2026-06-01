@@ -96,5 +96,22 @@
 </div>
 
 <!-- ЧЕК-ЛИСТ ПЕРЕД СНОМ (Разработчик 1 (Самира): вёрстка, Разработчик 2 (Арина): логика) -->
-<!-- арина -->
+<div class="checklist-card">
+    <h2 class="checklist-card__title">Чек-лист перед сном</h2>
+
+    <form method="POST" action="{{ url_for('main.save_checklist') }}" class="checklist-form">
+        <div class="checklist-items">
+            {% for key, label in checklist_items %}
+            <label class="checklist-item {% if key in completed_items %}checklist-item--done{% endif %}">
+                <input type="checkbox" name="items" value="{{ key }}"
+                       {% if key in completed_items %}checked{% endif %}>
+                <span class="checklist-item__check"></span>
+                <span class="checklist-item__label">{{ label }}</span>
+            </label>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn--primary">Сохранить ✨</button>
+    </form>
+</div>
 {% endblock %}

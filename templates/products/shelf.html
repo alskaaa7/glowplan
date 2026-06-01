@@ -29,7 +29,15 @@
         <p class="product-card__brand">{{ up.product.brand }}</p>
 
         <!-- срок годности (Разработчик 2 (Арина): бизнес-логика в models.py) -->
-        <!-- арина -->
+        <div class="product-card__expiry">
+            {% if up.status == 'expired' %}
+            <span class="badge badge--danger">Просрочен</span>
+            {% elif up.status == 'expiring' %}
+            <span class="badge badge--warning">{{ up.days_left }} дн.</span>
+            {% else %}
+            <span class="badge badge--ok">✓ {{ up.days_left }} дн.</span>
+            {% endif %}
+        </div>
 
         <!-- прогресс-бар срока годности (Разработчик 1 (Самира)) -->
         {% set progress = [((up.days_left / up.product.pao_days) * 100) | int, 100] | min %}
