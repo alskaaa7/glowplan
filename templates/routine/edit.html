@@ -1,0 +1,115 @@
+{# templates/routine/edit.html - редактор слота рутины #}
+{# FRONTEND (Разработчик 1): drag-and-drop выбор продуктов #}
+{% extends "base.html" %}
+{% block title %}Настроить рутину{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">{{ day_name }} — {{ time_label }}</h1>
+    <p class="page-subtitle">Выбери продукты и порядок нанесения</p>
+</div>
+
+<div class="routine-editor">
+    <form method="POST" id="routine-form" class="routine-editor__form">
+
+        <!-- доступные продукты с полки -->
+        <div class="routine-editor__panel">
+            <h3>Продукты с полки</h3>
+            <div class="available-products">
+                {% for up in user_products %}
+                <div class="available-product" data-id="{{ up.id }}">
+                    <span class="available-product__name">{{ up.product.name }}</span>
+                    <span class="available-product__brand">{{ up.product.brand }}</span>
+                    <button type="button" class="btn btn--xs btn--primary"
+                            onclick="addToRoutine({{ up.id }}, '{{ up.product.name }}', '{{ up.product.brand }}')">
+                        +
+                    </button>
+                </div>
+                {% endfor %}
+
+                {% if not user_products %}
+                <p class="hint">
+                    Сначала добавь продукты на <a href="{{ url_for('products.add') }}">личную полку</a>
+                </p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- составленная рутина -->
+        <div class="routine-editor__panel">
+            <h3>Рутина (по порядку)</h3>
+            <div id="routine-steps" class="routine-steps-list">
+                {% for step in routine.steps %}
+                <div class="routine-step-item" data-id="{{ step.user_product_id }}">
+                    <span class="routine-step-item__order">{{ loop.index }}</span>
+                    <div class="routine-step-item__info">
+                        <strong>{{ step.user_product.product.name }}</strong>
+                        <span>{{ step.user_product.product.brand }}</span>
+                    </div>
+                    <button type="button" class="btn btn--xs btn--ghost"
+                            onclick="removeStep(this)">×</button>
+                    <input type="hidden" name="user_product_ids" value="{{ step.user_product_id }}">
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if not routine.steps %}
+            <p id="empty-hint" class="hint">Добавь продукты из списка слева</p>
+            {% else %}
+            <p id="empty-hint" class="hint" style="display:none">Добавь продукты из списка слева</p>
+            {% endif %}
+        </div>
+
+    </form>
+
+    <div class="routine-editor__footer">
+        <button type="submit" form="routine-form" class="btn btn--primary">Сохранить рутину ✨</button>
+        <a href="{{ url_for('routine.index') }}" class="btn btn--ghost">Отмена</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{# JavaScript для добавления шагов в рутину (Разработчик 1 / Разработчик 3) #}
+<script>
+function addToRoutine(id, name, brand) {
+    // проверяем, не добавлен ли уже этот продукт
+    const existing = document.querySelector(`#routine-steps [data-id="${id}"]`);
+    if (existing) {
+        alert('Этот продукт уже в рутине');
+        return;
+    }
+
+    const steps = document.getElementById('routine-steps');
+    const hint  = document.getElementById('empty-hint');
+    const count = steps.querySelectorAll('.routine-step-item').length + 1;
+
+    const item = document.createElement('div');
+    item.className = 'routine-step-item';
+    item.dataset.id = id;
+    item.innerHTML = `
+        <span class="routine-step-item__order">${count}</span>
+        <div class="routine-step-item__info">
+            <strong>${name}</strong>
+            <span>${brand}</span>
+        </div>
+        <button type="button" class="btn btn--xs btn--ghost" onclick="removeStep(this)">×</button>
+        <input type="hidden" name="user_product_ids" value="${id}">
+    `;
+    steps.appendChild(item);
+    hint.style.display = 'none';
+}
+
+function removeStep(btn) {
+    const item  = btn.closest('.routine-step-item');
+    item.remove();
+    // перенумеровываем
+    document.querySelectorAll('.routine-step-item .routine-step-item__order')
+        .forEach((el, i) => el.textContent = i + 1);
+
+    if (document.querySelectorAll('.routine-step-item').length === 0) {
+        document.getElementById('empty-hint').style.display = 'block';
+    }
+}
+</script>
+{% endblock %}

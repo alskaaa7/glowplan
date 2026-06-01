@@ -1,0 +1,71 @@
+{# ------------------------------------------------------------
+   templates/base.html - базовый шаблон
+   FRONTEND (Разработчик 1 (Самира)): верстка, дизайн-система, навигация
+------------------------------------------------------------ #}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}GlowPlan{% endblock %} - Умный бьюти-календарь</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+{% if current_user.is_authenticated %}
+<!-- NAVIGATION (Разработчик 1 (Самира)) -->
+<nav class="navbar">
+    <a class="navbar__brand" href="{{ url_for('main.dashboard') }}">🌸 GlowPlan</a>
+
+    <div class="navbar__links">
+        <a href="{{ url_for('main.dashboard') }}"
+           class="{% if request.endpoint == 'main.dashboard' %}active{% endif %}">Сегодня</a>
+        <a href="{{ url_for('products.shelf') }}"
+           class="{% if request.blueprint == 'products' %}active{% endif %}">Полка</a>
+        <a href="{{ url_for('routine.index') }}"
+           class="{% if request.blueprint == 'routine' %}active{% endif %}">Рутина</a>
+        <a href="{{ url_for('admin.schemes_catalog') }}">Схемы гуру</a>
+
+        {% if current_user.is_guru() %}
+        <a href="{{ url_for('admin.schemes') }}"
+           class="badge-link {% if request.blueprint == 'admin' %}active{% endif %}">
+            Моё студио
+        </a>
+        {% endif %}
+
+        {% if current_user.is_admin() %}
+        <a href="{{ url_for('admin.panel') }}" class="badge-link badge-link--admin">Панель</a>
+        {% endif %}
+
+        <a href="{{ url_for('main.profile') }}" class="nav-avatar">
+            {{ current_user.name[0].upper() }}
+        </a>
+    </div>
+</nav>
+{% endif %}
+
+<!-- FLASH MESSAGES (Разработчик 1 (Самира)) -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="flash-container">
+    {% for category, message in messages %}
+    <div class="flash flash--{{ category }}">
+        {{ message }}
+        <button class="flash__close" onclick="this.parentElement.remove()">×</button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+    {% block content %}{% endblock %}
+</main>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

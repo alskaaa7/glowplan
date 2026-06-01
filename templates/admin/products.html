@@ -1,0 +1,31 @@
+{# templates/admin/products.html - список продуктов для гуру/администратора #}
+{% extends "base.html" %}
+{% block title %}База продуктов{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">База продуктов</h1>
+    <a href="{{ url_for('admin.add_product') }}" class="btn btn--primary">+ Добавить</a>
+</div>
+<table class="admin-table">
+    <thead>
+        <tr><th>Бренд</th><th>Название</th><th>Категория</th><th>PAO</th><th>Ингредиенты</th><th></th></tr>
+    </thead>
+    <tbody>
+        {% for p in products %}
+        <tr>
+            <td>{{ p.brand }}</td>
+            <td>{{ p.name }}</td>
+            <td>{{ p.category }}</td>
+            <td>{{ p.pao_days }} дн.</td>
+            <td>{{ p.ingredients or '—' }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('admin.delete_product', product_id=p.id) }}"
+                      onsubmit="return confirm('Удалить?')">
+                    <button class="btn btn--xs btn--ghost">🗑</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

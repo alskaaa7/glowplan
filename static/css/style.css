@@ -1,0 +1,575 @@
+/* ------------------------------------------------------------
+   static/css/style.css — дизайн-система GlowPlan
+   FRONTEND (Разработчик 1): вся верстка, цвета, типографика, компоненты, адаптив
+------------------------------------------------------------ */
+
+/* CSS-переменные (дизайн-токены) */
+:root {
+    --color-bg:         #fdf8f5;
+    --color-surface:    #ffffff;
+    --color-border:     #f0e8e0;
+    --color-text:       #2d2420;
+    --color-text-muted: #9c8a80;
+
+    --color-primary:    #d4717a;   /* пыльная роза */
+    --color-primary-hover: #c4616a;
+    --color-accent:     #e8a598;   /* персиковый */
+    --color-morning:    #fff3e0;   /* тёплый жёлтый - утро */
+    --color-evening:    #ede7f6;   /* лавандовый - вечер */
+
+    --color-success:    #81c784;
+    --color-warning:    #ffb74d;
+    --color-danger:     #e57373;
+    --color-info:       #64b5f6;
+
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+
+    --shadow-sm: 0 2px 8px rgba(180,120,100,.08);
+    --shadow-md: 0 4px 20px rgba(180,120,100,.12);
+
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body:    'DM Sans', system-ui, sans-serif;
+
+    --nav-height: 64px;
+}
+
+/* сброс и базовые стили */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: var(--font-body);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+a { color: var(--color-primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+textarea { font-family: var(--font-body); resize: vertical; width: 100%; padding: .6rem .9rem;
+    border: 1.5px solid var(--color-border); border-radius: var(--radius-sm); font-size: 14px; }
+
+/* ------------------------------------------------------------
+   НАВИГАЦИЯ (Разработчик 1 (Самира)
+------------------------------------------------------------ */
+.navbar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--color-surface);
+    border-bottom: 1.5px solid var(--color-border);
+    height: var(--nav-height);
+    display: flex; align-items: center;
+    padding: 0 2rem; gap: 2rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.navbar__brand {
+    font-family: var(--font-display);
+    font-size: 1.3rem; font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none; flex-shrink: 0;
+}
+
+.navbar__links {
+    display: flex; align-items: center;
+    gap: .25rem; flex-wrap: wrap;
+    margin-left: auto;
+}
+
+.navbar__links a {
+    padding: .4rem .8rem; border-radius: var(--radius-sm);
+    color: var(--color-text-muted); font-size: 14px;
+    transition: all .15s;
+}
+.navbar__links a:hover { background: var(--color-border); color: var(--color-text); text-decoration: none; }
+.navbar__links a.active { color: var(--color-primary); background: #fce8ea; }
+
+.badge-link { background: var(--color-morning) !important; }
+.badge-link--admin { background: #e8f5e9 !important; color: #388e3c !important; }
+
+.nav-avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--color-primary); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 14px; flex-shrink: 0;
+    text-decoration: none !important;
+}
+
+/* ------------------------------------------------------------
+   FLASH-СООБЩЕНИЯ (Разработчик 1 (Самира)
+------------------------------------------------------------ */
+.flash-container {
+    position: fixed; top: calc(var(--nav-height) + .5rem);
+    right: 1rem; z-index: 200;
+    display: flex; flex-direction: column; gap: .5rem;
+    max-width: 360px;
+}
+
+.flash {
+    padding: .75rem 1rem; border-radius: var(--radius-sm);
+    font-size: 14px; display: flex; align-items: center;
+    justify-content: space-between; gap: .75rem;
+    box-shadow: var(--shadow-md);
+    animation: slideIn .2s ease;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+.flash--success { background: #e8f5e9; border-left: 3px solid var(--color-success); }
+.flash--error   { background: #ffebee; border-left: 3px solid var(--color-danger); }
+.flash--warning { background: #fff8e1; border-left: 3px solid var(--color-warning); }
+.flash--info    { background: #e3f2fd; border-left: 3px solid var(--color-info); }
+
+.flash__close {
+    background: none; border: none; font-size: 18px;
+    cursor: pointer; color: var(--color-text-muted); padding: 0;
+    flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------
+   MAIN CONTENT
+------------------------------------------------------------ */
+.main-content {
+    max-width: 1100px; margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+.page-header {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 1.5rem; flex-wrap: wrap;
+}
+.page-title {
+    font-family: var(--font-display);
+    font-size: 1.8rem; font-weight: 600;
+    color: var(--color-text);
+}
+.page-subtitle { color: var(--color-text-muted); font-size: 14px; }
+
+/* ------------------------------------------------------------
+   КНОПКИ (Разработчик 1 (Самира)
+------------------------------------------------------------ */
+.btn {
+    display: inline-flex; align-items: center; gap: .4rem;
+    padding: .55rem 1.2rem; border-radius: var(--radius-sm);
+    font-size: 14px; font-family: var(--font-body);
+    font-weight: 500; cursor: pointer; border: none;
+    transition: all .15s; text-decoration: none;
+}
+
+.btn--primary   { background: var(--color-primary); color: white; }
+.btn--primary:hover { background: var(--color-primary-hover); text-decoration: none; color: white; }
+.btn--outline   { background: transparent; border: 1.5px solid var(--color-primary); color: var(--color-primary); }
+.btn--outline:hover { background: #fce8ea; }
+.btn--ghost     { background: transparent; color: var(--color-text-muted); }
+.btn--ghost:hover { background: var(--color-border); }
+.btn--full      { width: 100%; justify-content: center; }
+.btn--sm        { padding: .35rem .8rem; font-size: 13px; }
+.btn--xs        { padding: .2rem .55rem; font-size: 12px; }
+
+/* ------------------------------------------------------------
+   ФОРМЫ (Разработчик 1 (Самира))
+------------------------------------------------------------ */
+.form-group {
+    display: flex; flex-direction: column; gap: .35rem;
+    margin-bottom: 1rem;
+}
+.form-group label {
+    font-size: 13px; font-weight: 500;
+    color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .04em;
+}
+.form-group input,
+.form-group select {
+    padding: .6rem .9rem;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 15px; font-family: var(--font-body);
+    background: var(--color-surface);
+    transition: border-color .15s;
+}
+.form-group input:focus,
+.form-group select:focus {
+    outline: none; border-color: var(--color-primary);
+}
+.form-group input:disabled { background: var(--color-bg); }
+
+.hint { font-size: 12px; color: var(--color-text-muted); }
+.form-actions { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: .5rem; }
+
+.select-sm {
+    padding: .25rem .5rem; border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm); font-size: 13px;
+}
+
+/* ------------------------------------------------------------
+   СТРАНИЦА АВТОРИЗАЦИИ (Разработчик 1 (Самира))
+------------------------------------------------------------ */
+.auth-page {
+    min-height: 100vh; display: flex;
+    align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #fdf8f5, #fce8ea);
+    padding: 1rem;
+}
+
+.auth-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: 2.5rem;
+    width: 100%; max-width: 400px;
+}
+
+.auth-card__header { text-align: center; margin-bottom: 2rem; }
+.auth-logo { font-size: 3rem; margin-bottom: .5rem; }
+.auth-card__title {
+    font-family: var(--font-display);
+    font-size: 1.8rem; color: var(--color-primary);
+}
+.auth-card__subtitle { color: var(--color-text-muted); font-size: 14px; }
+.auth-card__footer { text-align: center; font-size: 14px; color: var(--color-text-muted); margin-top: 1.5rem; }
+
+.auth-form { display: flex; flex-direction: column; gap: .25rem; }
+
+/* ------------------------------------------------------------
+   БАННЕРЫ-УВЕДОМЛЕНИЯ (Разработчик 1 (Самира))
+------------------------------------------------------------ */
+.notifications { display: flex; flex-direction: column; gap: .5rem; margin-bottom: 1.5rem; }
+
+.banner {
+    padding: .75rem 1rem; border-radius: var(--radius-sm);
+    display: flex; align-items: flex-start; gap: .75rem;
+    font-size: 14px; border-left: 3px solid;
+}
+.banner--warning { background: #fff8e1; border-color: var(--color-warning); }
+.banner--danger  { background: #ffebee; border-color: var(--color-danger); }
+.banner--info    { background: #e3f2fd; border-color: var(--color-info); }
+.banner__icon { font-size: 1.1rem; flex-shrink: 0; }
+
+/* ------------------------------------------------------------
+   ДАШБОРД — РУТИНА НА СЕГОДНЯ (Разработчик 1 (Самира))
+------------------------------------------------------------ */
+.routine-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.25rem; margin-bottom: 1.5rem;
+}
+
+.routine-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--color-border);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.routine-card__header {
+    padding: 1rem 1.25rem;
+    display: flex; align-items: center; gap: .6rem;
+}
+.routine-card__header h2 { font-size: 1rem; font-weight: 600; }
+.routine-card__icon { font-size: 1.2rem; }
+.routine-card__header--morning { background: var(--color-morning); }
+.routine-card__header--evening { background: var(--color-evening); }
+
+.routine-steps { padding: .75rem; display: flex; flex-direction: column; gap: .5rem; }
+
+.step-item {
+    display: flex; align-items: center; gap: .75rem;
+    padding: .6rem .75rem;
+    background: var(--color-bg);
+    border-radius: var(--radius-sm);
+}
+.step-item__order {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--color-primary); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; flex-shrink: 0;
+}
+.step-item__info { flex: 1; }
+.step-item__name { font-weight: 500; font-size: 14px; }
+.step-item__brand { font-size: 12px; color: var(--color-text-muted); }
+.step-item__note { font-size: 12px; color: var(--color-primary); font-style: italic; }
+
+.routine-card__empty {
+    padding: 1.5rem; text-align: center;
+    color: var(--color-text-muted); font-size: 14px;
+    display: flex; flex-direction: column; gap: .75rem; align-items: center;
+}
+
+/* ------------------------------------------------------------
+   ЧЕК-ЛИСТ (Разработчик 1 (Самира))
+------------------------------------------------------------ */
+.checklist-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--color-border);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+.checklist-card__title {
+    font-family: var(--font-display);
+    font-size: 1.2rem; margin-bottom: 1rem;
+}
+
+.checklist-items { display: flex; flex-direction: column; gap: .5rem; margin-bottom: 1rem; }
+
+.checklist-item {
+    display: flex; align-items: center; gap: .75rem;
+    padding: .75rem 1rem;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer; transition: all .15s;
+    user-select: none;
+}
+.checklist-item:hover { border-color: var(--color-primary); }
+.checklist-item--done { background: #e8f5e9; border-color: var(--color-success); }
+
+.checklist-item input[type="checkbox"] { display: none; }
+
+.checklist-item__check {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 2px solid var(--color-border); flex-shrink: 0;
+    transition: all .15s;
+}
+.checklist-item--done .checklist-item__check {
+    background: var(--color-success);
+    border-color: var(--color-success);
+}
+.checklist-item--done .checklist-item__check::after {
+    content: '✓'; display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 12px; font-weight: 700; height: 100%;
+}
+
+.checklist-item__label { font-size: 15px; }
+
+/* ------------------------------------------------------------
+   КАРТОЧКИ ПРОДУКТОВ (Разработчик 1 (Самира))
+------------------------------------------------------------ */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+.product-card {
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    box-shadow: var(--shadow-sm);
+    display: flex; flex-direction: column; gap: .5rem;
+}
+.product-card--expiring { border-color: var(--color-warning); }
+.product-card--expired  { border-color: var(--color-danger); opacity: .85; }
+
+.product-card__category {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .06em; color: var(--color-text-muted);
+}
+.product-card__name { font-weight: 600; font-size: 15px; line-height: 1.3; }
+.product-card__brand { font-size: 13px; color: var(--color-text-muted); }
+.product-card__desc { font-size: 13px; color: var(--color-text-muted); }
+.product-card__expiry { margin: .25rem 0; }
+.product-card__meta {
+    display: flex; flex-wrap: wrap; gap: .5rem;
+    font-size: 12px; color: var(--color-text-muted);
+}
+.product-card__notes { font-size: 12px; color: var(--color-primary); font-style: italic; }
+.product-card__actions { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: auto; }
+
+/* Прогресс-бар срока годности */
+.progress-bar {
+    height: 4px; background: var(--color-border);
+    border-radius: 2px; overflow: hidden;
+}
+.progress-bar__fill { height: 100%; border-radius: 2px; transition: width .3s; }
+.progress-bar__fill--active   { background: var(--color-success); }
+.progress-bar__fill--expiring { background: var(--color-warning); }
+.progress-bar__fill--expired  { background: var(--color-danger); }
+
+/* ------------------------------------------------------------
+   БЕЙДЖИ (Разработчик 1 (Самира))
+------------------------------------------------------------ */
+.badge {
+    display: inline-block; padding: .15rem .55rem;
+    border-radius: 100px; font-size: 12px; font-weight: 600;
+}
+.badge--ok      { background: #e8f5e9; color: #388e3c; }
+.badge--warning { background: #fff8e1; color: #f57f17; }
+.badge--danger  { background: #ffebee; color: #c62828; }
+.badge--user    { background: #e3f2fd; color: #1565c0; }
+.badge--guru    { background: #fce4ec; color: #ad1457; }
+.badge--admin   { background: #e8f5e9; color: #2e7d32; }
+
+/* ------------------------------------------------------------
+   ФИЛЬТРЫ-ТАБЫ (Разработчик 1 (Самира))
+------------------------------------------------------------ */
+.filter-tabs {
+    display: flex; gap: .5rem; flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+.filter-tab {
+    padding: .4rem 1rem; border-radius: 100px;
+    border: 1.5px solid var(--color-border);
+    font-size: 13px; color: var(--color-text-muted);
+    transition: all .15s; text-decoration: none;
+}
+.filter-tab:hover { border-color: var(--color-primary); color: var(--color-primary); text-decoration: none; }
+.filter-tab.active { background: var(--color-primary); color: white; border-color: var(--color-primary); }
+
+/* ------------------------------------------------------------
+   РАСПИСАНИЕ РУТИНЫ (Разработчик 1 (Самира))
+------------------------------------------------------------ */
+.schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: .75rem;
+    overflow-x: auto;
+}
+
+.schedule-day { min-width: 120px; }
+
+.schedule-day__name {
+    font-weight: 600; font-size: 13px;
+    text-align: center; padding: .5rem;
+    background: var(--color-border);
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+
+.schedule-slot {
+    border: 1.5px solid var(--color-border);
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    padding: .75rem; margin-bottom: .5rem;
+    min-height: 80px;
+}
+.schedule-slot--morning { background: var(--color-morning); }
+.schedule-slot--evening { background: var(--color-evening); }
+
+.schedule-slot__label { font-size: 11px; font-weight: 600; color: var(--color-text-muted); margin-bottom: .4rem; }
+.schedule-slot__steps { list-style: none; display: flex; flex-direction: column; gap: .2rem; }
+.schedule-slot__steps li { font-size: 12px; }
+.schedule-slot__actions { display: flex; gap: .25rem; margin-top: .5rem; }
+.schedule-slot__add {
+    display: block; text-align: center; font-size: 12px;
+    color: var(--color-text-muted); padding: .4rem;
+}
+.schedule-slot__add:hover { color: var(--color-primary); }
+
+/* ------------------------------------------------------------
+   РЕДАКТОР РУТИНЫ (Разработчик 1 (Самира))
+------------------------------------------------------------ */
+.routine-editor { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.routine-editor__panel {
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--color-border);
+    padding: 1.25rem;
+}
+.routine-editor__panel h3 { font-size: 1rem; margin-bottom: 1rem; }
+.routine-editor__footer { grid-column: 1/-1; display: flex; gap: .75rem; }
+
+.available-products { display: flex; flex-direction: column; gap: .5rem; max-height: 400px; overflow-y: auto; }
+.available-product {
+    display: flex; align-items: center; gap: .5rem;
+    padding: .5rem .75rem; background: var(--color-bg);
+    border-radius: var(--radius-sm); font-size: 14px;
+}
+.available-product__name { flex: 1; font-weight: 500; }
+.available-product__brand { font-size: 12px; color: var(--color-text-muted); }
+
+.routine-steps-list { display: flex; flex-direction: column; gap: .5rem; max-height: 400px; overflow-y: auto; }
+.routine-step-item {
+    display: flex; align-items: center; gap: .75rem;
+    padding: .5rem .75rem; background: var(--color-bg);
+    border-radius: var(--radius-sm);
+}
+.routine-step-item__order {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--color-primary); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; flex-shrink: 0;
+}
+.routine-step-item__info { flex: 1; font-size: 13px; }
+
+/* ------------------------------------------------------------
+   КАРТОЧКИ (универсальные)
+------------------------------------------------------------ */
+.card {
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--color-border);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+.card__title { font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; }
+
+.form-card { max-width: 500px; }
+
+.profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+
+.stat-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: .75rem 0; border-bottom: 1px solid var(--color-border);
+    font-size: 14px;
+}
+.stat-item:last-child { border-bottom: none; }
+.stat-item__label { color: var(--color-text-muted); }
+.stat-item__value { font-weight: 500; }
+
+/* ------------------------------------------------------------
+   АДМИНИСТРАТИВНЫЕ ТАБЛИЦЫ (Разработчик 1 (Самира))
+------------------------------------------------------------ */
+.admin-grid { display: grid; gap: 1.25rem; }
+.admin-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.admin-table th {
+    text-align: left; padding: .6rem 1rem;
+    background: var(--color-bg);
+    font-size: 12px; text-transform: uppercase;
+    letter-spacing: .05em; color: var(--color-text-muted);
+    font-weight: 600;
+}
+.admin-table td { padding: .75rem 1rem; border-bottom: 1px solid var(--color-border); }
+.admin-table tr:last-child td { border-bottom: none; }
+
+.quick-links { display: flex; flex-direction: column; gap: .5rem; }
+.quick-link {
+    display: flex; align-items: center; gap: .75rem;
+    padding: .75rem 1rem; background: var(--color-bg);
+    border-radius: var(--radius-sm); font-size: 14px;
+    transition: background .15s;
+}
+.quick-link:hover { background: var(--color-border); text-decoration: none; }
+
+/* ------------------------------------------------------------
+   ПУСТЫЕ СОСТОЯНИЯ (Разработчик 1 (Самира)
+------------------------------------------------------------ */
+.empty-state {
+    text-align: center; padding: 3rem 1rem;
+    color: var(--color-text-muted); display: flex;
+    flex-direction: column; align-items: center; gap: 1rem;
+}
+.empty-state__icon { font-size: 3rem; }
+
+/* ------------------------------------------------------------
+   АДАПТИВ (Разработчик 1 (Самира))
+------------------------------------------------------------ */
+@media (max-width: 768px) {
+    .main-content { padding: 1rem; }
+    .navbar { padding: 0 1rem; }
+
+    .routine-grid { grid-template-columns: 1fr; }
+    .schedule-grid { grid-template-columns: repeat(3, 1fr); }
+    .profile-grid { grid-template-columns: 1fr; }
+    .routine-editor { grid-template-columns: 1fr; }
+    .products-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 375px) {
+    .products-grid { grid-template-columns: 1fr; }
+    .schedule-grid { grid-template-columns: repeat(2, 1fr); }
+    .navbar__links a:not(.nav-avatar):not(.badge-link) { display: none; }
+}

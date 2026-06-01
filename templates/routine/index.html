@@ -1,0 +1,66 @@
+{# templates/routine/index.html - конструктор рутины по дням недели #}
+{# FRONTEND (Разработчик 1 (Самира)): верстка таблицы расписания #}
+{% extends "base.html" %}
+{% block title %}Моя рутина{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Моя рутина</h1>
+    <p class="page-subtitle">Настрой уход по дням недели</p>
+</div>
+
+<!-- таблица расписания на неделю -->
+<div class="schedule-grid">
+    {% for day, data in schedule.items() %}
+    <div class="schedule-day">
+        <div class="schedule-day__name">{{ data.name }}</div>
+
+        <!-- утро -->
+        <div class="schedule-slot schedule-slot--morning">
+            <div class="schedule-slot__label">☀️ Утро</div>
+            {% if data.morning and data.morning.steps %}
+            <ul class="schedule-slot__steps">
+                {% for step in data.morning.steps %}
+                <li>{{ step.user_product.product.name }}</li>
+                {% endfor %}
+            </ul>
+            <div class="schedule-slot__actions">
+                <a href="{{ url_for('routine.edit', day=day, time_of_day='morning') }}"
+                   class="btn btn--xs btn--outline">✏️</a>
+                <form method="POST" action="{{ url_for('routine.delete', routine_id=data.morning.id) }}"
+                      onsubmit="return confirm('Удалить утреннюю рутину?')">
+                    <button type="submit" class="btn btn--xs btn--ghost">🗑</button>
+                </form>
+            </div>
+            {% else %}
+            <a href="{{ url_for('routine.edit', day=day, time_of_day='morning') }}"
+               class="schedule-slot__add">+ добавить</a>
+            {% endif %}
+        </div>
+
+        <!-- вечер -->
+        <div class="schedule-slot schedule-slot--evening">
+            <div class="schedule-slot__label">🌙 Вечер</div>
+            {% if data.evening and data.evening.steps %}
+            <ul class="schedule-slot__steps">
+                {% for step in data.evening.steps %}
+                <li>{{ step.user_product.product.name }}</li>
+                {% endfor %}
+            </ul>
+            <div class="schedule-slot__actions">
+                <a href="{{ url_for('routine.edit', day=day, time_of_day='evening') }}"
+                   class="btn btn--xs btn--outline">✏️</a>
+                <form method="POST" action="{{ url_for('routine.delete', routine_id=data.evening.id) }}"
+                      onsubmit="return confirm('Удалить вечернюю рутину?')">
+                    <button type="submit" class="btn btn--xs btn--ghost">🗑</button>
+                </form>
+            </div>
+            {% else %}
+            <a href="{{ url_for('routine.edit', day=day, time_of_day='evening') }}"
+               class="schedule-slot__add">+ добавить</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
