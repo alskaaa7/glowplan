@@ -1,0 +1,30 @@
+{# templates/admin/schemes_catalog.html - каталог схем бьюти-гуру #}
+{% extends "base.html" %}
+{% block title %}Схемы гуру{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Схемы бьюти-гуру</h1>
+    <p class="page-subtitle">Готовые схемы ухода от наших экспертов</p>
+</div>
+
+{% if schemes %}
+<div class="products-grid">
+    {% for s in schemes %}
+    <div class="product-card">
+        <h3 class="product-card__name">{{ s.title }}</h3>
+        <p class="product-card__brand">от {{ s.author.name }}</p>
+        <p class="product-card__desc">{{ s.description or 'Без описания' }}</p>
+        <div class="product-card__meta">
+            <span>Тип кожи: {{ s.skin_type }}</span>
+            <span>{{ s.imports_count }} импортов</span>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <div class="empty-state__icon">📋</div>
+    <p>Пока нет опубликованных схем</p>
+</div>
+{% endif %}
+{% endblock %}

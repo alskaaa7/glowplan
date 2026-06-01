@@ -1,0 +1,42 @@
+{# ------------------------------------------------------------
+   templates/auth/login.html - страница входа
+   FRONTEND (Разработчик 1 (Самира)): верстка и стили
+   BACKEND (Разработчик 3 (Даша)): обработка формы в routes/auth.py
+------------------------------------------------------------ #}
+{% extends "base.html" %}
+{% block title %}Войти{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-card">
+        <div class="auth-card__header">
+            <div class="auth-logo">🌸</div>
+            <h1 class="auth-card__title">GlowPlan</h1>
+            <p class="auth-card__subtitle">Войди в свой аккаунт</p>
+        </div>
+
+        <form method="POST" action="{{ url_for('auth.login') }}" class="auth-form">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required
+                       placeholder="you@example.com"
+                       value="{{ request.form.get('email', '') }}">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="password" equired placeholder="••••••">
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--full">
+                Войти ✨
+            </button>
+        </form>
+
+        <p class="auth-card__footer">
+            Ещё нет аккаунта?
+            <a href="{{ url_for('auth.register') }}">Зарегистрироваться</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{# templates/products/add.html - добавить продукт на полку #}
+{% extends "base.html" %}
+{% block title %}Добавить продукт{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Добавить на полку</h1>
+</div>
+
+<div class="form-card">
+    <form method="POST" action="{{ url_for('products.add') }}" class="auth-form">
+
+        <div class="form-group">
+            <label for="product_id">Продукт из базы</label>
+            <select id="product_id" name="product_id" required>
+                <option value="">— Выбери продукт —</option>
+                {% for p in all_products %}
+                <option value="{{ p.id }}">{{ p.brand }} - {{ p.name }} (PAO: {{ p.pao_days }} дн.)</option>
+                {% endfor %}
+            </select>
+            <span class="hint">
+                Нет нужного?
+                <a href="{{ url_for('products.catalog') }}">Смотри полный каталог</a>
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="opened_at">Дата открытия</label>
+            <input type="date" id="opened_at" name="opened_at"
+                   required value="{{ today }}">
+        </div>
+
+        <div class="form-group">
+            <label for="notes">Заметка <span class="hint">(необязательно)</span></label>
+            <input type="text" id="notes" name="notes"
+                   placeholder="Например: хранить в холодильнике">
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn--primary">Добавить</button>
+            <a href="{{ url_for('products.shelf') }}" class="btn btn--ghost">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// подставляем сегодняшнюю дату по умолчанию (Разработчик 1 (Самира))
+document.getElementById('opened_at').valueAsDate = new Date();
+</script>
+{% endblock %}

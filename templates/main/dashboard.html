@@ -1,0 +1,117 @@
+{# ------------------------------------------------------------
+   templates/main/dashboard.html — Дашборд «Сегодня»
+   FRONTEND (Разработчик 1 (Самира)): верстка, баннеры, чек-лист
+   BACKEND (Разработчик 2 (Арина)): данные передаются из routes/main.py
+------------------------------------------------------------ #}
+{% extends "base.html" %}
+{% block title %}Сегодня{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">{{ today_name }}, {{ today.strftime('%d.%m') }} 🌸</h1>
+    <p class="page-subtitle">Привет, {{ current_user.name }}! Твой план ухода на сегодня</p>
+</div>
+
+<!-- УВЕДОМЛЕНИЯ (Разработчик 1 (Самира): верстка баннеров) -->
+{% if notifications %}
+<div class="notifications">
+    {% for n in notifications %}
+    <div class="banner banner--{{ n.type }}">
+        <span class="banner__icon">{{ n.icon }}</span>
+        <span class="banner__text">{{ n.text }}</span>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- РУТИНА НА СЕГОДНЯ -->
+<div class="routine-grid">
+
+    <!-- УТРЕННЯЯ РУТИНА -->
+    <div class="routine-card">
+        <div class="routine-card__header routine-card__header--morning">
+            <span class="routine-card__icon">☀️</span>
+            <h2>Утренняя рутина</h2>
+        </div>
+
+        {% if morning_routine and morning_routine.steps %}
+        <div class="routine-steps">
+            {% for step in morning_routine.steps %}
+            <div class="step-item">
+                <div class="step-item__order">{{ loop.index }}</div>
+                <div class="step-item__info">
+                    <div class="step-item__name">{{ step.user_product.product.name }}</div>
+                    <div class="step-item__brand">{{ step.user_product.product.brand }}</div>
+                    {% if step.notes %}
+                    <div class="step-item__note">{{ step.notes }}</div>
+                    {% endif %}
+                </div>
+                {# Кнопка «Использовано» — увеличивает счётчик (Разработчик 2) #}
+                <form method="POST" action="{{ url_for('products.mark_used', up_id=step.user_product.id) }}">
+                    <button type="submit" class="btn btn--sm btn--outline">✓</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="routine-card__empty">
+            <p>Рутина не настроена</p>
+            <a href="{{ url_for('routine.edit', day=today.weekday(), time_of_day='morning') }}"
+               class="btn btn--sm btn--ghost">+ Настроить</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- ВЕЧЕРНЯЯ РУТИНА -->
+    <div class="routine-card">
+        <div class="routine-card__header routine-card__header--evening">
+            <span class="routine-card__icon">🌙</span>
+            <h2>Вечерняя рутина</h2>
+        </div>
+
+        {% if evening_routine and evening_routine.steps %}
+        <div class="routine-steps">
+            {% for step in evening_routine.steps %}
+            <div class="step-item">
+                <div class="step-item__order">{{ loop.index }}</div>
+                <div class="step-item__info">
+                    <div class="step-item__name">{{ step.user_product.product.name }}</div>
+                    <div class="step-item__brand">{{ step.user_product.product.brand }}</div>
+                </div>
+                <form method="POST" action="{{ url_for('products.mark_used', up_id=step.user_product.id) }}">
+                    <button type="submit" class="btn btn--sm btn--outline">✓</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="routine-card__empty">
+            <p>Рутина не настроена</p>
+            <a href="{{ url_for('routine.edit', day=today.weekday(), time_of_day='evening') }}"
+               class="btn btn--sm btn--ghost">+ Настроить</a>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+<!-- ЧЕК-ЛИСТ ПЕРЕД СНОМ (Разработчик 1 (Самира): вёрстка, Разработчик 2 (Арина): логика) -->
+<div class="checklist-card">
+    <h2 class="checklist-card__title">Чек-лист перед сном</h2>
+
+    <form method="POST" action="{{ url_for('main.save_checklist') }}" class="checklist-form">
+        <div class="checklist-items">
+            {% for key, label in checklist_items %}
+            <label class="checklist-item {% if key in completed_items %}checklist-item--done{% endif %}">
+                <input type="checkbox" name="items" value="{{ key }}"
+                       {% if key in completed_items %}checked{% endif %}>
+                <span class="checklist-item__check"></span>
+                <span class="checklist-item__label">{{ label }}</span>
+            </label>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn--primary">Сохранить ✨</button>
+    </form>
+</div>
+{% endblock %}

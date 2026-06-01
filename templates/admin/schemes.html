@@ -1,0 +1,39 @@
+{# templates/admin/schemes.html - мои схемы (гуру) #}
+{% extends "base.html" %}
+{% block title %}Мои схемы{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Мои схемы</h1>
+    <a href="{{ url_for('admin.add_scheme') }}" class="btn btn--primary">+ Создать</a>
+</div>
+
+{% if schemes %}
+<div class="products-grid">
+    {% for s in schemes %}
+    <div class="product-card">
+        <h3 class="product-card__name">{{ s.title }}</h3>
+        <span class="badge badge--{{ 'ok' if s.is_published else 'warning' }}">
+            {{ 'Опубликована' if s.is_published else 'Черновик' }}
+        </span>
+        <p class="product-card__desc">{{ s.description or 'Без описания' }}</p>
+        <div class="product-card__meta">
+            <span>Тип кожи: {{ s.skin_type }}</span>
+            <span>Импортов: {{ s.imports_count }}</span>
+        </div>
+        <div class="product-card__actions">
+            <form method="POST" action="{{ url_for('admin.publish_scheme', scheme_id=s.id) }}">
+                <button class="btn btn--sm btn--{% if s.is_published %}ghost{% else %}primary{% endif %}">
+                    {{ 'Снять с публикации' if s.is_published else 'Опубликовать' }}
+                </button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <p>У тебя пока нет схем</p>
+    <a href="{{ url_for('admin.add_scheme') }}" class="btn btn--primary">Создать первую</a>
+</div>
+{% endif %}
+{% endblock %}

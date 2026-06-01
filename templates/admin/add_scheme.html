@@ -1,0 +1,35 @@
+{# templates/admin/add_scheme.html - создание схемы #}
+{% extends "base.html" %}
+{% block title %}Создать схему{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Создать схему ухода</h1>
+</div>
+<div class="form-card">
+    <form method="POST" class="auth-form">
+        <div class="form-group">
+            <label>Название схемы</label>
+            <input type="text" name="title" required placeholder="Базовый уход для сухой кожи">
+        </div>
+        <div class="form-group">
+            <label>Описание</label>
+            <textarea name="description" rows="4"
+                      placeholder="Расскажи о схеме — для кого она, какой эффект..."></textarea>
+        </div>
+        <div class="form-group">
+            <label>Для какого типа кожи</label>
+            <select name="skin_type">
+                <option value="all">Для всех</option>
+                <option value="normal">Нормальная</option>
+                <option value="dry">Сухая</option>
+                <option value="oily">Жирная</option>
+                <option value="combo">Комбинированная</option>
+            </select>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn--primary">Создать</button>
+            <a href="{{ url_for('admin.schemes') }}" class="btn btn--ghost">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

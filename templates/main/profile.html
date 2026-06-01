@@ -1,0 +1,63 @@
+{# templates/main/profile.html - профиль пользователя #}
+{# FRONTEND (Разработчик 1): верстка #}
+{% extends "base.html" %}
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Мой профиль</h1>
+</div>
+
+<div class="profile-grid">
+    <!-- ДАННЫЕ ПРОФИЛЯ -->
+    <div class="card">
+        <h2 class="card__title">Личные данные</h2>
+
+        <form method="POST" action="{{ url_for('main.profile') }}" class="auth-form">
+            <div class="form-group">
+                <label>Имя</label>
+                <input type="text" name="name" value="{{ current_user.name }}" required>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" value="{{ current_user.email }}" disabled>
+            </div>
+            <div class="form-group">
+                <label>Тип кожи</label>
+                <select name="skin_type">
+                    {% for val in skin_types %}
+                    <option value="{{ val }}" {% if current_user.skin_type == val %}selected{% endif %}>
+                        {{ {'normal': 'Нормальная', 'dry': 'Сухая', 'oily': 'Жирная', 'combo': 'Комбинированная'}[val] }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Новый пароль <span class="hint">(оставь пустым, чтобы не менять)</span></label>
+                <input type="password" name="new_password" placeholder="Минимум 6 символов">
+            </div>
+            <button type="submit" class="btn btn--primary">Сохранить</button>
+        </form>
+    </div>
+
+    <!-- СТАТИСТИКА -->
+    <div class="card">
+        <h2 class="card__title">Статистика</h2>
+        <div class="stat-item">
+            <span class="stat-item__label">Роль</span>
+            <span class="badge badge--{{ current_user.role }}">{{ current_user.role }}</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-item__label">Чек-лист (последние 7 дней)</span>
+            <span class="stat-item__value">{{ checklist_stats }} / 7 дней</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-item__label">В системе с</span>
+            <span class="stat-item__value">{{ current_user.created_at.strftime('%d.%m.%Y') }}</span>
+        </div>
+        <a href="{{ url_for('auth.logout') }}" class="btn btn--outline btn--full" style="margin-top:1rem">
+            Выйти
+        </a>
+    </div>
+</div>
+{% endblock %}

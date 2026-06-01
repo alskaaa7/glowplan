@@ -1,0 +1,64 @@
+{# templates/admin/panel.html - панель администратора #}
+{% extends "base.html" %}
+{% block title %}Панель администратора{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Панель администратора</h1>
+</div>
+
+<div class="admin-grid">
+    <!-- пользователи -->
+    <div class="card">
+        <h2 class="card__title">Пользователи ({{ users | length }})</h2>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Имя</th><th>Email</th><th>Роль</th><th>Зарегистрирован</th><th>Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td><span class="badge badge--{{ user.role }}">{{ user.role }}</span></td>
+                    <td>{{ user.created_at.strftime('%d.%m.%Y') }}</td>
+                    <td>
+                        {% if user.id != current_user.id %}
+                        <form method="POST" action="{{ url_for('admin.change_role', user_id=user.id) }}"
+                              style="display:flex;gap:.5rem;align-items:center">
+                            <select name="role" class="select-sm">
+                                <option value="user" {% if user.role=='user' %}selected{% endif %}>user</option>
+                                <option value="guru" {% if user.role=='guru' %}selected{% endif %}>guru</option>
+                                <option value="admin" {% if user.role=='admin' %}selected{% endif %}>admin</option>
+                            </select>
+                            <button class="btn btn--xs btn--primary">✓</button>
+                        </form>
+                        {% else %}
+                        <span class="hint">это вы</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- быстрые ссылки -->
+    <div class="card">
+        <h2 class="card__title">Управление</h2>
+        <div class="quick-links">
+            <a href="{{ url_for('admin.products') }}" class="quick-link">
+                <span>Продукты в базе <span class="badge">{{ products_count }}</span>
+            </a>
+            <a href="{{ url_for('admin.add_product') }}" class="quick-link">
+                <span>➕</span> Добавить продукт
+            </a>
+            <a href="{{ url_for('admin.schemes') }}" class="quick-link">
+                <span>Схемы гуру <span class="badge">{{ schemes | length }}</span>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

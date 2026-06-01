@@ -1,0 +1,39 @@
+{# templates/products/catalog.html - каталог всех продуктов #}
+{% extends "base.html" %}
+{% block title %}Каталог{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Каталог продуктов</h1>
+</div>
+
+<!-- фильтр по категориям (Разработчик 1 (Самира)) -->
+<div class="filter-tabs">
+    {% for val, label in categories %}
+    <a href="{{ url_for('products.catalog', category=val) }}"
+       class="filter-tab {% if active_category == val %}active{% endif %}">{{ label }}</a>
+    {% endfor %}
+</div>
+
+<div class="products-grid">
+    {% for p in all_products %}
+    <div class="product-card">
+        <div class="product-card__category">{{ p.category }}</div>
+        <h3 class="product-card__name">{{ p.name }}</h3>
+        <p class="product-card__brand">{{ p.brand }}</p>
+        {% if p.description %}
+        <p class="product-card__desc">{{ p.description }}</p>
+        {% endif %}
+        <div class="product-card__meta">
+            <span>PAO: {{ p.pao_days }} дн.</span>
+            {% if p.ingredients %}
+            <span>{{ p.ingredients }}</span>
+            {% endif %}
+        </div>
+        <a href="{{ url_for('products.add') }}" class="btn btn--sm btn--primary" style="margin-top:.5rem">
+            + На полку
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
