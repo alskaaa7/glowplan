@@ -6,7 +6,7 @@
 // ------------------------------------------------------------
 
 // ============================================================
-// LocalStorage — namespace-обёртка (Разработчик 3 (Ксения))
+// LocalStorage — namespace-обёртка (Разработчик 3 (Даша))
 // все ключи хранятся с префиксом "gp:" чтобы не конфликтовать
 // ============================================================
 const LS = {
@@ -256,10 +256,10 @@ const UserApiWidget = {
         const container = document.getElementById("user-api-widget");
         if (!container) return;
 
-        const listEl     = document.getElementById("api-user-list");
-        const formEl     = document.getElementById("api-create-user-form");
+        const listEl = document.getElementById("api-user-list");
+        const formEl = document.getElementById("api-create-user-form");
         const refreshBtn = document.getElementById("api-refresh-btn");
-        const errorEl    = document.getElementById("api-error");
+        const errorEl = document.getElementById("api-error");
 
         const showError = (msg) => {
             if (errorEl) { errorEl.textContent = msg; errorEl.style.display = "block"; }
