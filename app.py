@@ -6,12 +6,14 @@
 
 from flask import Flask
 from extensions import db, login_manager
+import os
+
 
 
 def create_app():
     app = Flask(__name__)
 
-    app.config["SECRET_KEY"] = "dev-secret-key-change-in-production"
+    app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-fallback-key")
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///glowplan.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
