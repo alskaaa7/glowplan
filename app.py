@@ -1,6 +1,7 @@
 # ------------------------------------------------------------
 # app.py — точка входа Flask-приложения
-# BACKEND (Разработчик 2 (Арина)): инициализация Flask, SQLAlchemy, Flask-Login, регистрация маршрутов
+# BACKEND (Разработчик 2 (Арина)): инициализация Flask, SQLAlchemy, Flask-Login,
+#   регистрация маршрутов, в т.ч. нового api_bp
 # ------------------------------------------------------------
 
 from flask import Flask
@@ -24,12 +25,14 @@ def create_app():
     from routes.products import products_bp
     from routes.routine import routine_bp
     from routes.admin import admin_bp
+    from routes.api import api_bp          # NEW — REST API пользователей
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
     app.register_blueprint(products_bp)
     app.register_blueprint(routine_bp)
     app.register_blueprint(admin_bp)
+    app.register_blueprint(api_bp)         # NEW
 
     with app.app_context():
         import models  # noqa: F401

@@ -163,6 +163,3 @@ class GuruScheme(db.Model):
     is_published = db.Column(db.Boolean, default=False)
     imports_count = db.Column(db.Integer, default=0)
     created_at = db.Column(db.Date, default=date.today)
-
-
-

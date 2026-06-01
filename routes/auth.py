@@ -52,16 +52,8 @@ def register():
         flash(f"Добро пожаловать, {user.name}!", "success")
         return redirect(url_for("main.dashboard"))
 
-<<<<<<< HEAD
     return render_template("auth/register.html")
-=======
-<<<<<<< HEAD
-    return render_template("auth/register.html")
-=======
-    #рендеры самиры
->>>>>>> b1fa9f10170c1a866d377b0075d9d671f80ff596
 
->>>>>>> origin/main
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
@@ -83,18 +75,11 @@ def login():
             return redirect(next_page or url_for("main.dashboard"))
         else:
             flash("Неверный email или пароль", "error")
-<<<<<<< HEAD
-            
-    return render_template("auth/login.html")
-=======
-<<<<<<< HEAD
-            
-    return render_template("auth/login.html")
-=======
-#рендеры самиры
->>>>>>> b1fa9f10170c1a866d377b0075d9d671f80ff596
 
->>>>>>> origin/main
+            
+    return render_template("auth/login.html")
+            
+
 
 
 @auth_bp.route("/logout")

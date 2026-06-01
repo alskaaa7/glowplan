@@ -26,22 +26,11 @@ CHECKLIST_ITEMS = [
     ("night_care", "Ночной уход"),
 ]
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> origin/main
 @main_bp.route("/")
 def index():
     if current_user.is_authenticated:
         return redirect(url_for("main.dashboard"))
     return redirect(url_for("auth.login"))
-<<<<<<< HEAD
-=======
-=======
-#рендеры самиры
->>>>>>> b1fa9f10170c1a866d377b0075d9d671f80ff596
-
->>>>>>> origin/main
 
 @main_bp.route("/dashboard")
 @login_required
@@ -77,11 +66,6 @@ def dashboard():
     ).first()
 
     completed_items = json.loads(today_log.completed_items) if today_log else []
-<<<<<<< HEAD
-=======
-
-<<<<<<< HEAD
->>>>>>> origin/main
     
     return render_template(
         "main/dashboard.html",
@@ -93,14 +77,6 @@ def dashboard():
         today_name=DAYS_RU[weekday],
         today=today,
     )
-<<<<<<< HEAD
-=======
-=======
-    #рендеры самиры
->>>>>>> b1fa9f10170c1a866d377b0075d9d671f80ff596
-
-
->>>>>>> origin/main
 
 def get_notifications(user):
     """
